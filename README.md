@@ -1,2 +1,2 @@
 # inbound
-inbound marketing api aggeragor
+inbound marketing api aggregator
