@@ -1,14 +1,10 @@
 'use strict';
 const google =  require('googleapis');
-const path = require('path');
-const fs = require('fs');
 
-let filepath = 'keys/analytics.secrets.json';
-let key = JSON.parse(fs.readFileSync(path.join(__dirname, filepath), { encoding: 'utf8', mode: 'r' }));
-// console.log(key);
+let key = require('./keys/analytics.secrets.json');
+let view = require('./keys/analytics.view.json');
 
-//extracted from view stting on analytics-admi-dashboard
-const VIEW_ID = 'ga:130909438';
+const VIEW_ID = `ga:${view.view_id}`;
 
 let jwtClient = new google.auth.JWT(
   key.client_email,
@@ -18,7 +14,7 @@ let jwtClient = new google.auth.JWT(
   null
 );
 
-jwtClient.authorize(function (err, tokens) {
+jwtClient.authorize((err, tokens) => {
   if (err) {
     console.log(err);
     return;
@@ -30,7 +26,7 @@ jwtClient.authorize(function (err, tokens) {
   queryData(analytics);
 });
 
-function queryData(analytics) {
+const queryData = (analytics) => {
   analytics.data.ga.get({
     'auth': jwtClient,
     'ids': VIEW_ID,
@@ -41,7 +37,7 @@ function queryData(analytics) {
     'sort': '-ga:uniquePageviews',
     'max-results': 10,
     'filters': 'ga:pagePath=~/ch_[-a-z0-9]+[.]html$',
-  }, function (err, response) {
+  }, (err, response) => {
     if (err) {
       console.log('error', err);
       return;
