@@ -3,8 +3,9 @@ const google =  require('googleapis');
 const path = require('path');
 const fs = require('fs');
 
-let filepath = '*.json';
+let filepath = 'keys/analytics.secrets.json';
 let key = JSON.parse(fs.readFileSync(path.join(__dirname, filepath), { encoding: 'utf8', mode: 'r' }));
+// console.log(key);
 
 //extracted from view stting on analytics-admi-dashboard
 const VIEW_ID = 'ga:130909438';
@@ -25,7 +26,7 @@ jwtClient.authorize(function (err, tokens) {
     console.log('success');
   }
   let analytics = google.analytics('v3');
-  //console.log(analytics);
+  // console.log(analytics);
   queryData(analytics);
 });
 

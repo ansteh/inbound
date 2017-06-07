@@ -3,7 +3,7 @@ const google =  require('googleapis');
 const path = require('path');
 const fs = require('fs');
 
-let filepath = '*.json';
+let filepath = '';
 let key = JSON.parse(fs.readFileSync(path.join(__dirname, filepath), { encoding: 'utf8', mode: 'r' }));
 
 //extracted from view stting on analytics-admi-dashboard
