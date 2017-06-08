@@ -1,7 +1,7 @@
 'use strict';
 const google =  require('googleapis');
 
-let key = require('./keys/analytics.secrets.json');
+let key = require('./keys/google.secrets.json');
 let view = require('./keys/analytics.view.json');
 
 const VIEW_ID = `ga:${view.view_id}`;
