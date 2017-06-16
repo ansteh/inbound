@@ -39,5 +39,5 @@ jwtClient.authorize((err, tokens) => {
       console.log('err', err);
     }
     console.log('success', res);
-  })
+  });
 });

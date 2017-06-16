@@ -18,7 +18,8 @@
     "url": "https://github.com/ansteh/inbound/issues"
   },
   "dependencies": {
-    "googleapis": "^19.0.0"
+    "googleapis": "^19.0.0",
+    "lodash": "^4.17.4"
   },
   "devDependencies": {}
 }
