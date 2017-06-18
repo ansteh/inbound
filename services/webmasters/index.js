@@ -1,5 +1,8 @@
 'use strict';
-const auth   = require('../../lib/auth');
+const moment = require('moment');
+const DP     = require('datepress');
+
+const auth   = require('../../modules/auth');
 const google = require('googleapis');
 
 const query = require('./requests/query');
@@ -25,6 +28,22 @@ const createClient = ({ key, site }) => {
   };
 };
 
+const format = (date) => {
+  return moment(date).format('YYYY-MM-DD');
+};
+
+const getLastDateOfState = () => {
+  return moment().subtract(91, 'days').toDate();
+};
+
+const rangeDaysOfStates = () => {
+  let start = getLastDateOfState();
+  let end = moment().subtract(1, 'days');
+  return DP.range(start, end, 'days');
+};
+
 module.exports = {
   createClient,
+  getLastDateOfState,
+  rangeDaysOfStates,
 };
