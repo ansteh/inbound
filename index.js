@@ -2,6 +2,7 @@
 const _          = require('lodash');
 const moment     = require('moment');
 const DP         = require('datepress');
+const util       = require('./modules/util');
 
 const webmasters = require('./services/webmasters');
 
@@ -52,29 +53,48 @@ const saveStateBy = (date) => {
 const saveAllCurrentStates = () => {
   let dates = webmasters.rangeDaysOfStates();
 
-  let interval = setInterval(() => {
-    if(dates.length === 0) {
-      clearInterval(interval);
-    } else {
-      let date = dates.shift();
-      saveStateBy(date);
-    }
-  }, 1000);
+  util.forEachDelayed(dates, saveStateBy)
+    .then(() => console.log('finished'))
+    .catch(console.log);
 };
 
-saveAllCurrentStates();
+// saveAllCurrentStates();
 
-// let resource = {
-//   // aggregationType: 'auto',
-//   // searchType: 'web',
-//   startDate: '2017-04-01',
-//   endDate: '2017-05-01',
-//   rowLimit: 10,
-//   // startRow: 0,
-// };
-//
-// client.query(resource)
-//   .then(console.log)
-//   .then(() => client.query(resource))
-//   .then(console.log)
-//   .catch(console.log);
+//searchType : web, image, video
+let resource = {
+  startDate: '2017-04-01',
+  endDate: '2017-05-01',
+  // aggregationType: 'auto',
+  // searchType: 'web',
+  //dimensions: ['country', 'device', 'query'],
+  dimensions: ['page'],
+  // startRow: 0,
+  // rowLimit: 10,
+};
+
+let resourceByPage = {
+  startDate: '2017-04-01',
+  endDate: '2017-05-01',
+  // aggregationType: 'auto',
+  // searchType: 'web',
+  dimensions: ['country', 'device', 'query', 'page'],
+  // startRow: 0,
+  // rowLimit: 10,
+};
+
+let resourceSearchAppearance = {
+  startDate: '2017-04-01',
+  endDate: '2017-05-01',
+  // aggregationType: 'auto',
+  // searchType: 'web',
+  dimensions: ['searchAppearance'],
+  // startRow: 0,
+  // rowLimit: 10,
+};
+
+client.query(resource)
+  .then((json) => {
+    console.log(JSON.stringify(json, null, 2));
+    console.log(json.rows.length);
+  })
+  .catch(console.log);
