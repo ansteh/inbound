@@ -61,40 +61,77 @@ const saveAllCurrentStates = () => {
 // saveAllCurrentStates();
 
 //searchType : web, image, video
-let resource = {
-  startDate: '2017-04-01',
-  endDate: '2017-05-01',
-  // aggregationType: 'auto',
-  // searchType: 'web',
-  //dimensions: ['country', 'device', 'query'],
-  dimensions: ['page'],
-  // startRow: 0,
-  // rowLimit: 10,
+
+const query = (resource) => {
+  client.query(resource)
+    .then((json) => {
+      console.log(JSON.stringify(json, null, 2));
+      console.log(_.get(json, 'rows.length', 0));
+    })
+    .catch(console.log);
 };
 
-let resourceByPage = {
-  startDate: '2017-04-01',
-  endDate: '2017-05-01',
-  // aggregationType: 'auto',
-  // searchType: 'web',
-  dimensions: ['country', 'device', 'query', 'page'],
-  // startRow: 0,
-  // rowLimit: 10,
+const queryDefaultDimensions = () => {
+  let resource = {
+    startDate: '2017-04-01',
+    endDate: '2017-05-01',
+    // searchType: 'image',
+    dimensions: ['country', 'device', 'query'],
+  };
+
+  query(resource);
 };
 
-let resourceSearchAppearance = {
-  startDate: '2017-04-01',
-  endDate: '2017-05-01',
-  // aggregationType: 'auto',
-  // searchType: 'web',
-  dimensions: ['searchAppearance'],
-  // startRow: 0,
-  // rowLimit: 10,
+const queryDimensionsAgainstPage = () => {
+  let resource = {
+    startDate: '2017-04-01',
+    endDate: '2017-05-01',
+    dimensions: ['country', 'device', 'query', 'page'],
+  };
+
+  query(resource);
 };
 
-client.query(resource)
-  .then((json) => {
-    console.log(JSON.stringify(json, null, 2));
-    console.log(json.rows.length);
-  })
-  .catch(console.log);
+const querySearchAppearance = () => {
+  let resource = {
+    startDate: '2017-04-01',
+    endDate: '2017-05-01',
+    dimensions: ['searchAppearance']
+  };
+
+  query(resource);
+};
+
+//queryDefaultDimensions();
+//queryDimensionsAgainstPage();
+//querySearchAppearance();
+
+const resources = require('./services/webmasters/requests/query.resources');
+//console.log(JSON.stringify(resources.createSearchModel(), null, 2));
+
+const queryCountry = () => {
+  // let resource = {
+  //   startDate: '2017-04-01',
+  //   endDate: '2017-05-01',
+  //   dimensions: ['country'],
+  // };
+
+  let resource = {
+    startDate: '2017-04-01',
+    endDate: '2017-05-01',
+    dimensions: ['country', 'device', 'query'],
+    rowLimit: 5000
+  };
+
+  client.query(resource)
+    .then((json) => {
+      console.log(JSON.stringify(json, null, 2));
+      console.log('rows', json.rows.length);
+      let rows = json.rows;
+      return _.sumBy(rows, 'clicks');
+    })
+    .then(console.log)
+    .catch(console.log);
+};
+
+queryCountry();
