@@ -117,8 +117,8 @@ const queryCountry = () => {
   // };
 
   let resource = {
-    startDate: '2017-04-01',
-    endDate: '2017-05-01',
+    startDate: '2019-06-01',
+    endDate: '2019-06-07',
     dimensions: ['country', 'device', 'query'],
     rowLimit: 5000
   };
@@ -127,8 +127,9 @@ const queryCountry = () => {
     .then((json) => {
       console.log(JSON.stringify(json, null, 2));
       console.log('rows', json.rows.length);
-      let rows = json.rows;
-      return _.sumBy(rows, 'clicks');
+      console.log('countries', _.chain(json.rows).map('keys.0').uniq().value());
+
+      return _.sumBy(json.rows, 'clicks');
     })
     .then(console.log)
     .catch(console.log);
