@@ -1,5 +1,3 @@
-'use strict';
-const Promise        = require('bluebird')
 const Loki           = require('lokijs');
 
 let db;
