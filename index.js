@@ -109,27 +109,72 @@ const querySearchAppearance = () => {
 const resources = require('./services/webmasters/requests/query.resources');
 //console.log(JSON.stringify(resources.createSearchModel(), null, 2));
 
-const queryCountry = () => {
-  // let resource = {
-  //   startDate: '2017-04-01',
-  //   endDate: '2017-05-01',
-  //   dimensions: ['country'],
-  // };
-
+const queryByDimensions = (dimensions) => {
   let resource = {
-    startDate: '2019-06-01',
-    endDate: '2019-06-07',
-    dimensions: ['country', 'device', 'query'],
-    rowLimit: 5000
+    startDate: '2019-07-01',
+    endDate: '2019-07-07',
+    // dimensions: ['country', 'device', 'page', 'query'],
+    dimensions,
+    rowLimit: 25000,
+  };
+
+  return client.query(resource)
+    .then((json) => {
+      if(_.has(json, 'rows')) {
+        // console.log(JSON.stringify(json, null, 2));
+        // console.log('rows', json.rows.length);
+        // console.log('countries', _.chain(json.rows).map('keys.0').uniq().value());
+
+        const clicks = _.sumBy(json.rows, 'clicks');
+        const impressions = _.sumBy(json.rows, 'impressions');
+        const ctr = impressions > 0 ? (clicks || 0) / impressions : null;
+
+        return {
+          dimensions,
+          clicks,
+          impressions,
+          ctr,
+        };
+      } else {
+        return Promise.reject('Now rows returned!');
+      }
+    })
+    .then(console.log)
+    .catch(console.log);
+};
+
+// Promise.all(['country', 'device', 'page', 'query'].map(queryByDimensions))
+//   .catch(console.log)
+
+const queryCountry = () => {
+  let resource = {
+    startDate: '2019-07-01',
+    endDate: '2019-07-07',
+    // dimensions: ['country', 'device', 'page', 'query'],
+    // dimensions: ['country'],
+    dimensions: ['searchAppearance'],
+    rowLimit: 25000,
   };
 
   client.query(resource)
     .then((json) => {
-      console.log(JSON.stringify(json, null, 2));
-      console.log('rows', json.rows.length);
-      console.log('countries', _.chain(json.rows).map('keys.0').uniq().value());
+      if(_.has(json, 'rows')) {
+        console.log(JSON.stringify(json, null, 2));
+        console.log('rows', json.rows.length);
+        console.log('countries', _.chain(json.rows).map('keys.0').uniq().value());
 
-      return _.sumBy(json.rows, 'clicks');
+        const clicks = _.sumBy(json.rows, 'clicks');
+        const impressions = _.sumBy(json.rows, 'impressions');
+        const ctr = impressions > 0 ? (clicks || 0) / impressions : null;
+
+        return {
+          clicks,
+          impressions,
+          ctr,
+        };
+      } else {
+        return Promise.reject('Now rows returned!');
+      }
     })
     .then(console.log)
     .catch(console.log);
