@@ -18,9 +18,9 @@
     "url": "https://github.com/ansteh/inbound/issues"
   },
   "dependencies": {
-    "datepress": "0.0.7",
-    "googleapis": "^19.0.0",
-    "lodash": "^4.17.11",
+    "datepress": "0.0.9",
+    "googleapis": "^45.0.0",
+    "lodash": "^4.17.15",
     "lokijs": "^1.5.6",
     "moment": "^2.24.0"
   },
