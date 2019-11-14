@@ -22,7 +22,8 @@
     "googleapis": "^45.0.0",
     "lodash": "^4.17.15",
     "lokijs": "^1.5.6",
-    "moment": "^2.24.0"
+    "moment": "^2.24.0",
+    "xml2js": "^0.4.22"
   },
   "devDependencies": {}
 }

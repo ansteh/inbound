@@ -1,6 +1,6 @@
-'use strict';
 const _      = require('lodash');
-const google = require('googleapis');
+
+const { google } = require('googleapis');
 
 const authorize = (jwtClient) => {
   return new Promise((resolve, reject) => {

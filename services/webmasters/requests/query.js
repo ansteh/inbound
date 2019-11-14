@@ -1,6 +1,6 @@
-'use strict';
 const _          = require('lodash');
-const google     = require('googleapis');
+
+const { google } = require('googleapis');
 const webmasters = google.webmasters('v3');
 
 const query = _.curry((resource, { jwtClient, site }) => {
@@ -8,7 +8,7 @@ const query = _.curry((resource, { jwtClient, site }) => {
   return new Promise((resolve, reject) => {
     webmasters.searchanalytics.query({
       auth: jwtClient,
-      siteUrl: encodeURIComponent(site.url),
+      siteUrl: site.url, //encodeURIComponent(site.url),
       resource
     }, (err, res) => {
       if(err) {

@@ -157,6 +157,7 @@ const queryCountry = () => {
   };
 
   client.query(resource)
+    .then(response => response.data)
     .then((json) => {
       if(_.has(json, 'rows')) {
         console.log(JSON.stringify(json, null, 2));
