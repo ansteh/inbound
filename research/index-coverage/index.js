@@ -65,11 +65,12 @@ const getAllSitemapUrls = (urls) => {
       ];
     })
     .flatten()
+    .uniq()
     .value();
 };
 
 const getAllCoverageUrls = (urls) => {
-  return _.map(urls, 'url');
+  return _.uniq(_.map(urls, 'url'));
 };
 
 const inspectExcludes = (sitemap, coverage) => {
@@ -99,19 +100,6 @@ const inspectExcludes = (sitemap, coverage) => {
     })
 };
 
-// parseSitemap('sitemap.xml')
-//   // .then(result => result[99])
-//   // .then(result => JSON.stringify(result, null, 2))
-//   .then(console.log)
-//   .catch(console.log)
-
-// parseIndexCoverage('index_coverage.csv')
-//   // .then(result => JSON.stringify(result, null, 2))
-//   .then(console.log)
-//   .catch(console.log)
-
-inspectExcludes('sitemap.xml', 'index_coverage.csv')
-  // .then(result => result[99])
-  // .then(result => JSON.stringify(result, null, 2))
-  .then(console.log)
-  .catch(console.log)
+module.exports = {
+  inspectExcludes,
+};

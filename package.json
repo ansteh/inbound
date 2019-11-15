@@ -18,6 +18,8 @@
     "url": "https://github.com/ansteh/inbound/issues"
   },
   "dependencies": {
+    "axios": "^0.19.0",
+    "cheerio": "^1.0.0-rc.3",
     "datepress": "0.0.9",
     "googleapis": "^45.0.0",
     "lodash": "^4.17.15",
